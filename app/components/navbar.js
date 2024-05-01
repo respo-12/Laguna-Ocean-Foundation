@@ -97,7 +97,7 @@ export default function Navbar() {
                                 </Link>
                             </View>
                         )}
-                        <Link href="https://www.paypal.com/donate/?cmd=_s-xclick&hosted_button_id=K3RWWPRL3V7XW&source=url&ssrt=1707680553450" style={styles.item}>
+                        <Link href="https://givebutter.com/laguna-ocean-foundation" style={styles.item}>
                             <View>
                                 <Text style={styles.text}>Help Support LOF</Text>
                             </View>
