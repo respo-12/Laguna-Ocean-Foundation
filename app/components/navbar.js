@@ -107,6 +107,11 @@ export default function Navbar() {
                                 <Text style={styles.text}>LOF Main Website</Text>
                             </View>
                         </Link>
+                        <Link href="../login" style={styles.item}>
+                            <View>
+                                <Text style={styles.text}>Login/Sign Up</Text>
+                            </View>
+                        </Link>
                         <Pressable onPress={hamPress}>
                             <View style={styles.buffer2} />
                         </Pressable>
