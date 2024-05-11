@@ -21,12 +21,11 @@ export default function LoginPage() {
                 <Navbar/>
             </div>
 
-            <body className='login template d-flex justify-content-center align-items-center vh-100 bg-primary'>
-                <div className='form_container p-5 rounded bg-white'>
-                    <form>
-                        <h3 className='text-center'>Sign In</h3>
+            <body className='login d-flex justify-content-center align-items-center vh-100 bg-primary'>
+                    <form className='login bg-white p-3'>
+                        <h3 className='text-center'>Welcome Back!</h3>
                         <div className='mb-2'>
-                            <label htmlFor='name'>Email</label>
+                            <label htmlFor='email'>Email</label>
                             <input type='email' placeholder='Enter Email' className='form-control'/>
                         </div>
                         <div className='mb-2'>
@@ -46,7 +45,6 @@ export default function LoginPage() {
                             Forgot <a href=''>Password?</a><a href='' className='ms-2'>Sign Up</a>
                         </p>
                     </form>
-                </div>
             </body>
         </>
     );
