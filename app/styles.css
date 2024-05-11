@@ -1,0 +1,27 @@
+.form_container {
+    width: 30%;
+}
+
+@media screen and (max_width: 1000px) {
+    .form_container {
+        width: 40%;
+    }
+}
+
+@media screen and (max_width: 700px) {
+    .form_container {
+        width: 65%;
+    }
+}
+
+@media screen and (max_width: 700px) {
+    .form_container {
+        width: 65%;
+    }
+}
+
+@media screen and (max_width: 400px) {
+    .form_container {
+        width: 80%;
+    }
+}

@@ -124,7 +124,6 @@ export default function Navbar() {
 
 const styles = StyleSheet.create({
     navbarcontainer: {
-        height: '10vh',
         padding: 7,
         flexDirection: 'row',
         justifyContent: 'space-between',

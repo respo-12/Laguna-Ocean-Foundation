@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, Button, Image, TouchableOpacity } from 'react-native';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Navbar from './components/navbar';
+import './styles.css';
 
 const sand = '#e3c088';
 const blue = '#3a899b';
@@ -14,64 +16,38 @@ export default function LoginPage() {
         console.log(`Username: ${username}, Password: ${password}`);
     };
     return (
-        <View style={styles.container}>
-            <View style={styles.loginForm}>
-                <Text style={styles.login_text}>Welcome Back!</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Username"
-                    onChangeText={setUsername}
-                    value={username}
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Password"
-                    onChangeText={setPassword}
-                    value={password}
-                    secureTextEntry
-                />
-                <TouchableOpacity style={styles.button} onPress={handleLogin}>
-                        <Text style={styles.buttonText}>Login</Text>
-                </TouchableOpacity>
-            </View>
-        </View>
-);
-}
+        <>
+            <div className>
+                <Navbar/>
+            </div>
 
-const styles = StyleSheet.create({
-container: {
-    flex: 1,
-    flexDirection: 'row',
-    backgroundColor: blue,
-    marginBottom: 10,
-},
-loginForm: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingHorizontal: '10%',
-},
-input: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginBottom: 10,
-    padding: 10,
-    backgroundColor: 'white',
-},
-login_text: {
-    color: sand,
-    fontSize: 20,
-    marginBottom: 10,
-    fontWeight: 'bold',
-    textAlign: 'center',
-},
-button: {
-    backgroundColor: sand,
-    padding: 10,
-    borderRadius: 5,
-},
-buttonText: {
-    color: 'black',
-    textAlign: 'center',
-},
-});
+            <body className='login template d-flex justify-content-center align-items-center vh-100 bg-primary'>
+                <div className='form_container p-5 rounded bg-white'>
+                    <form>
+                        <h3 className='text-center'>Sign In</h3>
+                        <div className='mb-2'>
+                            <label htmlFor='name'>Email</label>
+                            <input type='email' placeholder='Enter Email' className='form-control'/>
+                        </div>
+                        <div className='mb-2'>
+                            <label htmlFor='password'>Password</label>
+                            <input type='password' placeholder='Enter Password' className='form-control'/>
+                        </div>
+                        <div className='mb-2'>
+                            <input type='checkbox' className='custom-control custom-checkbox' id='check'/>
+                            <label htmlFor='check' className='custom-input-label ms-2'>
+                                Remember Me
+                            </label>
+                        </div>
+                        <div className='d-grid'>
+                            <button type='submit' className='btn btn-primary'>Login</button>
+                        </div>
+                        <p className='text-end mt-2'>
+                            Forgot <a href=''>Password?</a><a href='' className='ms-2'>Sign Up</a>
+                        </p>
+                    </form>
+                </div>
+            </body>
+        </>
+    );
+}
