@@ -109,7 +109,12 @@ export default function Navbar() {
                         </Link>
                         <Link href="../login" style={styles.item}>
                             <View>
-                                <Text style={styles.text}>Login/Sign Up</Text>
+                                <Text style={styles.text}>Login</Text>
+                            </View>
+                        </Link>
+                        <Link href="../signup" style={styles.item}>
+                            <View>
+                                <Text style={styles.text}>Sign Up</Text>
                             </View>
                         </Link>
                         <Pressable onPress={hamPress}>
