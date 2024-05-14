@@ -54,6 +54,14 @@ export default function LoginPage() {
             className="form-control"
           />
         </div>
+        <div className="mb-2">
+          <label htmlFor="password">Confirm Password</label>
+          <input
+            type="password"
+            placeholder="Re-type Password"
+            className="form-control"
+          />
+        </div>
         <div className="d-grid">
           <button
             type="submit"
