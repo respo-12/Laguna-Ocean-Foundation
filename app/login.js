@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "./components/navbar";
-import "./styles.css";
 
 const sand = "#e3c088";
 const blue = "#3a899b";
@@ -61,9 +60,9 @@ export default function LoginPage() {
           <a href="">Forgot Password?</a>
         </p>
         <p className="text-center mt-2">
-          Don't Have an Account Sign Up
+          Don't Have an Account?
           <a href="./signup" className="ms-2">
-            here
+            Sign Up
           </a>
         </p>
       </form>

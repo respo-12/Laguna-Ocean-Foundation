@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "./components/navbar";
-import "./styles.css";
 
 const sand = "#e3c088";
 const blue = "#3a899b";
