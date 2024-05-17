@@ -1,25 +1,43 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "./components/navbar";
+import { FIREBASE_AUTH } from "./firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const sand = "#e3c088";
 const blue = "#3a899b";
 const black = "#000000";
 
-export default function LoginPage() {
-  const [username, setUsername] = useState("");
+export default function SignUpPage() {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleLogin = () => {
+  const passwordMatch = password === confirmPassword;
+
+  const handleSignUp = (e) => {
     // Handle login logic here TEST VERSION
-    console.log(`Username: ${username}, Password: ${password}`);
+    e.preventDefault();
+    if (!passwordMatch) {
+      setErrorMessage("Passwords do not match");
+      return;
+    }
+    createUserWithEmailAndPassword(FIREBASE_AUTH, email, password).then((userCredential) => {
+      console.log(userCredential);
+    }).catch((error) => {
+      console.log(error);
+      if (error.code === "auth/weak-password") {
+        setErrorMessage("Password is too weak must be at least 8 characters");
+      }
+    });
   };
   return (
     <>
       <div className>
         <Navbar />
       </div>
-      <form className="login bg-white p-4">
+      <form className="login bg-white p-4" onSubmit={handleSignUp}>
         <h3 className="text-center">Join the conservation efforts of Laguna Beach!</h3>
         <div className="mb-2">
           <label htmlFor="email">First Name</label>
@@ -43,6 +61,7 @@ export default function LoginPage() {
             type="email"
             placeholder="jane.doe@gmail.com"
             className="form-control"
+            onChange={(e) => { setEmail(e.target.value) }} // Update password state
           />
         </div>
         <div className="mb-2">
@@ -51,6 +70,7 @@ export default function LoginPage() {
             type="password"
             placeholder="Must be at least 8 characters"
             className="form-control"
+            onChange={(e) => { setPassword(e.target.value) }} // Update password state
           />
         </div>
         <div className="mb-2">
@@ -59,8 +79,10 @@ export default function LoginPage() {
             type="password"
             placeholder="Re-type Password"
             className="form-control"
+            onChange={(e) => { setConfirmPassword(e.target.value) }} // Update confirm password state
           />
         </div>
+        {errorMessage != '' && <p style={{ color: 'red', textAlign: 'center'  }}>{errorMessage}</p>}
         <div className="d-grid">
           <button
             type="submit"

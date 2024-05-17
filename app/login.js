@@ -1,25 +1,36 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "./components/navbar";
+import { FIREBASE_AUTH } from "./firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 const sand = "#e3c088";
 const blue = "#3a899b";
 const black = "#000000";
 
 export default function LoginPage() {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleLogin = () => {
+  const handleLogin = (e) => {
     // Handle login logic here TEST VERSION
-    console.log(`Username: ${username}, Password: ${password}`);
-  };
+    e.preventDefault();
+    signInWithEmailAndPassword(FIREBASE_AUTH, email, password).then((userCredential) => {
+      console.log(userCredential);
+    }).catch((error) => {
+      console.log(error);
+      if (error.code === "auth/invalid-credential") {
+        setErrorMessage("Wrong Password or Account Doesn't Exist");
+      }
+    });
+  }
   return (
     <>
       <div className>
         <Navbar />
       </div>
-      <form className="login bg-white p-4">
+      <form className="login bg-white p-4" onSubmit={handleLogin}>
         <h3 className="text-center">Welcome Back!</h3>
         <div className="mb-2">
           <label htmlFor="email">Email</label>
@@ -27,6 +38,7 @@ export default function LoginPage() {
             type="email"
             placeholder="jane.doe@gmail.com"
             className="form-control"
+            onChange={(e) => { setEmail(e.target.value) }} // Update password state
           />
         </div>
         <div className="mb-2">
@@ -35,6 +47,7 @@ export default function LoginPage() {
             type="password"
             placeholder="Remember Must Be At Least 8 Characters"
             className="form-control"
+            onChange={(e) => { setPassword(e.target.value) }} // Update password state
           />
         </div>
         <div className="mb-2">
@@ -56,6 +69,7 @@ export default function LoginPage() {
             Login
           </button>
         </div>
+        {errorMessage != '' && <p style={{ color: 'red', textAlign: 'center' }}>{errorMessage}</p>}
         <p className="text-center mt-2">
           <a href="">Forgot Password?</a>
         </p>
