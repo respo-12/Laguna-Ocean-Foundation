@@ -107,6 +107,16 @@ export default function Navbar() {
                                 <Text style={styles.text}>LOF Main Website</Text>
                             </View>
                         </Link>
+                        <Link href="../login" style={styles.item}>
+                            <View>
+                                <Text style={styles.text}>Login</Text>
+                            </View>
+                        </Link>
+                        <Link href="../signup" style={styles.item}>
+                            <View>
+                                <Text style={styles.text}>Sign Up</Text>
+                            </View>
+                        </Link>
                         <Pressable onPress={hamPress}>
                             <View style={styles.buffer2} />
                         </Pressable>
@@ -119,7 +129,6 @@ export default function Navbar() {
 
 const styles = StyleSheet.create({
     navbarcontainer: {
-        height: '10vh',
         padding: 7,
         flexDirection: 'row',
         justifyContent: 'space-between',
