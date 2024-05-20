@@ -24,12 +24,17 @@ export default function SignUpPage() {
       setErrorMessage("Passwords do not match");
       return;
     }
+    // Create user with email and password
     createUserWithEmailAndPassword(FIREBASE_AUTH, email, password).then((userCredential) => {
       console.log(userCredential);
     }).catch((error) => {
       console.log(error);
       if (error.code === "auth/weak-password") {
-        setErrorMessage("Password is too weak must be at least 8 characters");
+        setErrorMessage("Password is too weak must be at least 6 characters");
+        return;
+      }
+      else if (error.code === "auth/email-already-in-use") {
+        setErrorMessage("Email already in use");
         return;
       }
     });
@@ -55,7 +60,7 @@ export default function SignUpPage() {
     .catch(error => {
       console.error("Error checking document existence:", error);
     });
-      
+    e.target.reset();
     
     
   };
@@ -97,7 +102,7 @@ export default function SignUpPage() {
           <label htmlFor="password">Password</label>
           <input
             type="password"
-            placeholder="Must be at least 8 characters"
+            placeholder="Must be at least 6 characters"
             className="form-control"
             onChange={(e) => { setPassword(e.target.value) }} // Update password state
           />
