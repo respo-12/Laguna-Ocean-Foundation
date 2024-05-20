@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "./components/navbar";
-import { FIREBASE_AUTH } from "./firebase";
+import { FIREBASE_AUTH,FIRESTORE_DB,doesDocExist } from "./firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-
+import { doc, setDoc } from "firebase/firestore";
 const sand = "#e3c088";
 const blue = "#3a899b";
 const black = "#000000";
@@ -13,7 +13,8 @@ export default function SignUpPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const passwordMatch = password === confirmPassword;
 
   const handleSignUp = (e) => {
@@ -29,12 +30,38 @@ export default function SignUpPage() {
       console.log(error);
       if (error.code === "auth/weak-password") {
         setErrorMessage("Password is too weak must be at least 8 characters");
+        return;
       }
     });
+    doesDocExist("User", email)
+    .then(exists => {
+      if (exists) {
+        console.log("User already exists");
+        console.error("User already exists")
+      } else {
+        console.log("Document does not exist.");
+        try{
+          setDoc(doc(FIRESTORE_DB, "User", email), {
+            First: firstName,
+            Last: lastName,
+          });
+          console.log("User signed up and added to Firestore:", user);
+        }
+        catch{
+          console.log("Error adding user to Firestore: ",error.message)
+        }
+      }
+    })
+    .catch(error => {
+      console.error("Error checking document existence:", error);
+    });
+      
+    
+    
   };
   return (
     <>
-      <div className>
+      <div className ="toReplace">
         <Navbar />
       </div>
       <form className="login bg-white p-4" onSubmit={handleSignUp}>
@@ -45,6 +72,7 @@ export default function SignUpPage() {
             type="name"
             placeholder="Jane"
             className="form-control"
+            onChange={(e) => { setFirstName(e.target.value) }} // Update last name state
           />
         </div>
         <div className="mb-2">
@@ -53,6 +81,7 @@ export default function SignUpPage() {
             type="name"
             placeholder="Doe"
             className="form-control"
+            onChange={(e) => { setLastName(e.target.value) }} // Update last name state
           />
         </div>
         <div className="mb-2">
