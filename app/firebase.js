@@ -19,7 +19,7 @@ const firebaseConfig = {
 const FIREBASE_APP = initializeApp(firebaseConfig);
 const FIREBASE_ANALYTICS = getAnalytics(FIREBASE_APP);
 const FIREBASE_AUTH = getAuth(FIREBASE_APP);
-const FIRESTORE_DB = getFirestore(FIREBASE_APP);;
+const FIRESTORE_DB = getFirestore(FIREBASE_APP);
 export { FIREBASE_AUTH, FIRESTORE_DB };
 export async function doesDocExist(collectionName, documentId) {
   const docRef = doc(FIRESTORE_DB, collectionName, documentId);
