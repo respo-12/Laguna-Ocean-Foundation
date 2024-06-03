@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "./components/navbar";
 import { FIREBASE_AUTH } from "./firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 const sand = "#e3c088";
 const blue = "#3a899b";
@@ -25,8 +25,15 @@ export default function LoginPage() {
       }
     });
   }
+  const handleGoogleLogin = async (e) => {
+    const GoogleProvider = await new GoogleAuthProvider();
+    return signInWithPopup(FIREBASE_AUTH, GoogleProvider)
+  }
   return (
     <>
+    <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"></link>
+    </head>
       <div className>
         <Navbar />
       </div>
@@ -80,6 +87,18 @@ export default function LoginPage() {
           </a>
         </p>
       </form>
+      <div className="d-flex justify-content-center">
+      
+        <button 
+          type="submit"
+          className="btn "
+          style={{ backgroundColor: sand }}
+          onClick={handleGoogleLogin}
+        >
+          <i class="bi bi-google" style={{ color: black, marginRight: '10px' }}></i>
+          Continue With Google
+        </button>
+      </div>
     </>
   );
 }
