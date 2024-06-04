@@ -4,7 +4,7 @@ import { StyleSheet, Pressable, Text, View, Dimensions } from "react-native";
 import Navbar from "./components/navbar";
 import Chart from "./components/chart";
 import HomePage from "./HomePage";
-
+import MapComponent from './components/Map/MapComponent';
 import LogBG from '../assets/NewLog.svg'
 import MapBG from '../assets/NewMap.svg'
 import FieldBG from '../assets/NewField.svg'
