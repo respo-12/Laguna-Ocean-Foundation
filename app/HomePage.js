@@ -11,6 +11,7 @@ import {
 import { Link } from "expo-router";
 import "./App.css"; // Importing the CSS file for styling
 import Chart from "./components/chart";
+import Navbar from "./components/navbar";
 
 const logo = require("../assets/lof.png"); // Importing the LOF logo
 const search_location = require("../assets/search-location.png"); // Importing the search location icon
@@ -21,70 +22,20 @@ const handshake = require("../assets/handshake.png"); // Importing the handshake
 const HomePage = () => {
   return (
     <div>
-      {/* Navigation bar */}
-      <nav
-        className="navbar navbar-expand-lg navbar-light bg-light"
-        style={{ paddingTop: "20px", paddingBottom: "20px" }}
-      >
-        <div className="container justify-content-between">
-          <div>
-            {/* Making the LOF logo a pressable image that leads to lagunaoceanfoundation.org */}
-              <Pressable>
-                <Image
-                  style={{ height: 40, width: 150, margin: 5 }}
-                  source={logo}
-                />
-              </Pressable>
-          </div>
-          <div>
-            {/* Button to toggle navigation menu on small screens */}
-            <button
-              className="navbar-toggler"
-              type="button"
-              data-toggle="collapse"
-              data-target="#navbarNav"
-              aria-controls="navbarNav"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-            >
-              <span className="navbar-toggler-icon"></span>
-            </button>
-            {/* Navigation menu */}
-            <div className="collapse navbar-collapse" id="navbarNav">
-              <ul className="navbar-nav ml-auto">
-                {/* Links to different pages */}
-                <li className="nav-item">
-                  <a className="nav-link" href="page1.html">
-                    Page 1
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="page2.html">
-                    Page 2
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="page3.html">
-                    Page 3
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Navbar />
       {/* Container for buttons */}
       <div className="buttons-container">
         {/* First row of buttons */}
         <div className="button-row">
           {/* Button for Interactive Map */}
           <button className="button">
-            <Link href="./components/Map/MapComponent">
+            <Link href="./components/Map/MapComponent" className="text-white text-center">
               <Image
-                style={{ width: 40, height: 40, marginBottom: 5 }}
+                style={{ width: 40, height: 40, marginBottom: 5}}
                 source={search_location}
+                class="alight-self-center"
               />
-              <div>Interactive Map</div>
+              Interactive Map
             </Link>
           </button>
           {/* Button for Field Guide */}

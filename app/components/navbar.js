@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     logo: {
         height: 40,
         width: 150,
-        margin: 5,
+        margin: 10,
     },
     ham: {
         width: 50,
