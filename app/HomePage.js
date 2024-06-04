@@ -29,14 +29,12 @@ const HomePage = () => {
         <div className="container justify-content-between">
           <div>
             {/* Making the LOF logo a pressable image that leads to lagunaoceanfoundation.org */}
-            <Link href="/" asChild>
               <Pressable>
                 <Image
-                  style={{ height: 40, width: 150, margin: 5}}
+                  style={{ height: 40, width: 150, margin: 5 }}
                   source={logo}
                 />
               </Pressable>
-            </Link>
           </div>
           <div>
             {/* Button to toggle navigation menu on small screens */}
@@ -80,24 +78,24 @@ const HomePage = () => {
         {/* First row of buttons */}
         <div className="button-row">
           {/* Button for Interactive Map */}
-          <button
-            onClick={() =>
-              window.open(
-                "https://thadiel.github.io/LOFWebVersion/map",
-                "_blank"
-              )
-            }
-            className="button"
-          >
-            <Image style={{width: 40, height: 40, marginBottom: 5}} source={search_location} />
-            <div>Interactive Map</div>
+          <button className="button">
+            <Link href="./components/Map/MapComponent">
+              <Image
+                style={{ width: 40, height: 40, marginBottom: 5 }}
+                source={search_location}
+              />
+              <div>Interactive Map</div>
+            </Link>
           </button>
           {/* Button for Field Guide */}
           <button
             onClick={() => window.open("https://thadiel.github.io/", "_blank")}
             className="button"
           >
-            <Image style={{width: 40, height: 40, marginBottom: 5}} source={book} />
+            <Image
+              style={{ width: 40, height: 40, marginBottom: 5 }}
+              source={book}
+            />
             <div>Field Guide</div>
           </button>
         </div>
@@ -108,7 +106,10 @@ const HomePage = () => {
             onClick={() => window.open("https://thadiel.github.io/", "_blank")}
             className="button"
           >
-            <Image style={{width: 40, height: 40, marginBottom: 5}} source={fish_cooked} />
+            <Image
+              style={{ width: 40, height: 40, marginBottom: 5 }}
+              source={fish_cooked}
+            />
             <div>Wildlife Directory</div>
           </button>
           {/* Button for Support LOF */}
@@ -121,7 +122,10 @@ const HomePage = () => {
             }
             className="button"
           >
-            <Image style={{width: 40, height: 40, marginBottom: 5}} source={handshake} />
+            <Image
+              style={{ width: 40, height: 40, marginBottom: 5 }}
+              source={handshake}
+            />
             <div>Support LOF</div>
           </button>
         </div>
