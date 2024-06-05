@@ -13,13 +13,14 @@ import "./App.css"; // Importing the CSS file for styling
 import Chart from "./components/chart";
 import Navbar from "./components/navbar";
 
-const logo = require("../assets/lof.png"); // Importing the LOF logo
 const search_location = require("../assets/search-location.png"); // Importing the search location icon
 const book = require("../assets/book.png"); // Importing the book icon
 const fish_cooked = require("../assets/fish-cooked.png"); // Importing the fish icon
 const handshake = require("../assets/handshake.png"); // Importing the handshake icon
 
 const HomePage = () => {
+
+  console.log(window.location.pathname);
   return (
     <div>
       <Navbar />
