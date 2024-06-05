@@ -9,7 +9,7 @@ const lightblue = '#68c8cb';
 const blue = '#3a899b';
 const darkblue = '#191516a';
 
-export default function chart(){
+export default function Chart(){
     const tides = "https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?date=today&station=9410580&product=predictions&datum=MLLW&time_zone=lst&units=english&application=DataAPI_Sample&format=json&interval=hilo"
     const [levels,setLevels] = useState([0,0])
     const [dates,setDates] = useState([])

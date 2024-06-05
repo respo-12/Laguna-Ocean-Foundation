@@ -1,12 +1,17 @@
 /* App.css */
 
 body {
-  background-color: #333; /* Dark background color */
+  background: linear-gradient(to bottom, #003366, #005A9C, #4A90E2); /* Darker blue to lighter blue gradient */
   color: #fff; /* White text color */
+  margin: 0;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Modern font */
 }
 
-.navbar {
-  background-color: #111; /* Dark color for the navbar */
+.header {
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .logo {
@@ -19,23 +24,56 @@ body {
   flex-direction: column;
   align-items: center; /* Center horizontally */
   justify-content: center; /* Center vertically */
-  height: 50vh; /* Set height to full viewport height */
+  height: 50vh; /* Set height to half viewport height */
 }
 
 .button-row {
   display: flex;
+  justify-content: center;
   margin-bottom: 20px;
+  width: 100%;
 }
 
 .button {
-  margin-right: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
   border-radius: 10px;
-  padding: 30px 20px;
-  width: 150px;
+  padding: 15px;
+  width: 100px;
+  height: 100px;
   text-align: center;
-  font-size: 20px;
+  font-size: 14px;
+  background: linear-gradient(to bottom, #D2B48C, #C0A080); /* Gradient tan color */
+  color: #fff; /* Button text color */
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Shadow for button depth */
+  transition: transform 0.2s, background-color 0.3s;
 }
 
-.button div {
+.button:hover {
+  background: linear-gradient(to bottom, #C0A080, #D2B48C); /* Inverted gradient on hover */
+  transform: translateY(-5px); /* Lift effect on hover */
+}
+
+.button img.button-image {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 5px;
+}
+
+.button div.button-text {
+  color: #fff;
+  text-align: center;
+}
+
+.button div.small-text {
+  font-size: 12px; /* Smaller font size for the Interactive Map button */
+}
+
+.button div.line-text {
   line-height: 1; /* Ensures each line of text is tightly stacked */
 }

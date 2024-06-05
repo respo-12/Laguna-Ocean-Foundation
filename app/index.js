@@ -17,7 +17,6 @@ const darkblue = '#1A526B';
 export default function App() {
     return (
         <>
-         <Navbar />
         <HomePage />
         </>
        
