@@ -43,33 +43,34 @@ const HomePage = () => {
                 source={search_location}
                 class="alight-self-center"
               />
+              <br/>
               Interactive Map
             </Link>
           </button>
           {/* Button for Field Guide */}
-          <button
-            onClick={() => window.open("https://thadiel.github.io/", "_blank")}
-            className="button"
-          >
-            <Image
-              style={{ width: 40, height: 40, marginBottom: 5 }}
-              source={book}
-            />
-            <div>Field Guide</div>
+          <button className="button">
+            <Link href="/guidebook" className="text-white text-center">
+              <Image
+                style={{ width: 40, height: 40, marginBottom: 5}}
+                source={book}
+                className="align-self-center"
+              />
+              <br/>
+              Field Guide
+            </Link>
           </button>
         </div>
         {/* Second row of buttons */}
         <div className="button-row">
           {/* Button for Wildlife Directory */}
-          <button
-            onClick={() => window.open("https://thadiel.github.io/", "_blank")}
-            className="button"
-          >
+          <button className="button">
+            <Link href="/wildlife/" className="text-white text-center">
             <Image
               style={{ width: 40, height: 40, marginBottom: 5 }}
               source={fish_cooked}
             />
-            <div>Wildlife Directory</div>
+            </Link>
+            Wildlife Directory
           </button>
           {/* Button for Support LOF */}
           <button
