@@ -17,6 +17,9 @@ const search_location = require("../assets/search-location.png"); // Importing t
 const book = require("../assets/book.png"); // Importing the book icon
 const fish_cooked = require("../assets/fish-cooked.png"); // Importing the fish icon
 const handshake = require("../assets/handshake.png"); // Importing the handshake icon
+//const backgroundImage = require();
+
+const blue = "#3a899b";
 
 const HomePage = () => {
 
@@ -24,6 +27,10 @@ const HomePage = () => {
   return (
     <div>
       <Navbar />
+      {/* Welcome text for the website.*/}
+      <h3 className="text-center text-light pt-4">
+        Welcome to Laguna Ocean Foundation's Community Conservation Platform!
+      </h3>
       {/* Container for buttons */}
       <div className="buttons-container">
         {/* First row of buttons */}
