@@ -8,6 +8,9 @@ const sand = '#e3c088';
 const lightblue = '#68c8cb';
 const blue = '#3a899b';
 const darkblue = '#191516a';
+const gradient_start = '#005A9C';
+const gradient_end = '#4A90E2';
+const white = '#ffffff';
 
 export default function Chart(){
     const tides = "https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?date=today&station=9410580&product=predictions&datum=MLLW&time_zone=lst&units=english&application=DataAPI_Sample&format=json&interval=hilo"
@@ -56,9 +59,9 @@ export default function Chart(){
         yAxisSuffix="ft"
         yAxisInterval={1} // optional, defaults to 1
         chartConfig={{
-          backgroundColor: blue,
-          backgroundGradientFrom: blue,
-          backgroundGradientTo:blue,
+          backgroundColor: sand,
+          backgroundGradientFrom: gradient_start,
+          backgroundGradientTo: gradient_end,
           decimalPlaces: 2, // optional, defaults to 2dp
           color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
           labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
@@ -92,9 +95,9 @@ const styles = StyleSheet.create({
   window:{
     justifyContent:'center',
     position: 'absolute',
-    height:'35vh',
-    width: '80vw',
-    top: '50vh',
-    marginHorizontal: '10vw'
+    height:'auto',
+    width: 'auto',
+    top: '60vh',
+    marginHorizontal: '10vw',
 }
 })
