@@ -76,10 +76,10 @@ export default function SignUpPage() {
       <div className ="toReplace">
         <Navbar />
       </div>
-      <form className="login bg-white p-4" onSubmit={handleSignUp}>
-        <h3 className="text-center">Join the conservation efforts of Laguna Beach!</h3>
+      <form className="login p-4" onSubmit={handleSignUp}>
+        <h3 className="text-center text-white">Join the conservation efforts of Laguna Beach!</h3>
         <div className="mb-2">
-          <label htmlFor="email">First Name</label>
+          <label htmlFor="email" className="text-white fs-5">First Name</label>
           <input
             type="name"
             placeholder="Jane"
@@ -88,7 +88,7 @@ export default function SignUpPage() {
           />
         </div>
         <div className="mb-2">
-          <label htmlFor="name">Last Name</label>
+          <label htmlFor="name" className="text-white fs-5">Last Name</label>
           <input
             type="name"
             placeholder="Doe"
@@ -97,7 +97,7 @@ export default function SignUpPage() {
           />
         </div>
         <div className="mb-2">
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email" className="text-white fs-5">Email</label>
           <input
             type="email"
             placeholder="jane.doe@gmail.com"
@@ -106,7 +106,7 @@ export default function SignUpPage() {
           />
         </div>
         <div className="mb-2">
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password" className="text-white fs-5">Password</label>
           <input
             type="password"
             placeholder="Must be at least 6 characters"
@@ -115,7 +115,7 @@ export default function SignUpPage() {
           />
         </div>
         <div className="mb-2">
-          <label htmlFor="password">Confirm Password</label>
+          <label htmlFor="password" className="text-white fs-5">Confirm Password</label>
           <input
             type="password"
             placeholder="Re-type Password"
@@ -128,16 +128,15 @@ export default function SignUpPage() {
           <button
             type="submit"
             className="btn"
-            style={{ backgroundColor: blue }}
+            style={{ backgroundColor: blue, color: 'white'}}
           >
             Sign Up
           </button>
         </div>
-        <p className="text-center mt-2">
-          Have an Account? Login <a href="./login">Here</a>
+        <p className="text-center mt-2 text-white">
+          Have an Account? Login <a style={{color:blue}} href="./login">Here</a>
         </p>
-      </form>
-      <div className="d-flex justify-content-center">
+        <div className="d-flex justify-content-center">
       
         <button 
           type="submit"
@@ -149,6 +148,7 @@ export default function SignUpPage() {
           Continue With Google
         </button>
       </div>
+      </form>
     </>
   );
 }

@@ -34,13 +34,13 @@ export default function LoginPage() {
     <head>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"></link>
     </head>
-      <div className>
+      <div>
         <Navbar />
       </div>
-      <form className="login bg-white p-4" onSubmit={handleLogin}>
-        <h3 className="text-center">Welcome Back!</h3>
+      <form className="login p-4" onSubmit={handleLogin}>
+        <h3 className="text-center text-white">Welcome Back!</h3>
         <div className="mb-2">
-          <label htmlFor="email">Email</label>
+          <label className="text-white fs-5" htmlFor="email">Email</label>
           <input
             type="email"
             placeholder="jane.doe@gmail.com"
@@ -49,7 +49,7 @@ export default function LoginPage() {
           />
         </div>
         <div className="mb-2">
-          <label htmlFor="password">Password</label>
+          <label className="text-white fs-5" htmlFor="password">Password</label>
           <input
             type="password"
             placeholder="Remember Must Be At Least 8 Characters"
@@ -63,7 +63,7 @@ export default function LoginPage() {
             className="custom-control custom-checkbox"
             id="check"
           />
-          <label htmlFor="check" className="custom-input-label ms-2">
+          <label htmlFor="check" className="custom-input-label ms-2 text-white">
             Remember Me
           </label>
         </div>
@@ -71,34 +71,34 @@ export default function LoginPage() {
           <button
             type="submit"
             className="btn"
-            style={{ backgroundColor: blue }}
+            style={{ backgroundColor: blue, color: 'white' }}
           >
             Login
           </button>
         </div>
         {errorMessage != '' && <p style={{ color: 'red', textAlign: 'center' }}>{errorMessage}</p>}
         <p className="text-center mt-2">
-          <a href="">Forgot Password?</a>
+          <a href="" style={{color: blue}}>Forgot Password?</a>
         </p>
-        <p className="text-center mt-2">
+        <p className="text-center mt-2 text-white">
           Don't Have an Account?
-          <a href="./signup" className="ms-2">
-            Sign Up
+          <a href="./signup" className="ms-2" style={{color: blue}}>
+            Sign Up here
           </a>
         </p>
-      </form>
-      <div className="d-flex justify-content-center">
+        <div className="d-flex justify-content-center">
       
         <button 
           type="submit"
           className="btn "
-          style={{ backgroundColor: sand }}
+          style={{ backgroundColor: sand}}
           onClick={handleGoogleLogin}
         >
           <i class="bi bi-google" style={{ color: black, marginRight: '10px' }}></i>
           Continue With Google
         </button>
       </div>
+      </form>
     </>
   );
 }
