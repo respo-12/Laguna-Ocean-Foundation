@@ -32,9 +32,14 @@ export default function LoginPage() {
     });
   }
   const handleGoogleLogin = async (e) => {
-    const GoogleProvider = await new GoogleAuthProvider();
-    const result = await signInWithPopup(FIREBASE_AUTH, GoogleProvider)
-    return result.user;
+    try {
+      const GoogleProvider = new GoogleAuthProvider();
+      const result = await signInWithPopup(FIREBASE_AUTH, GoogleProvider);
+      window.location.href = "/";
+      return result.user;
+    } catch (error) {
+      console.error("Error during Google login: ", error);
+    }
   }
   return (
     <>
