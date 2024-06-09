@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./MapComponent.css"; // Import the CSS file
 import { Pressable, Image } from "react-native";
-import logo from "../../../assets/lof.png"; // Ensure the correct path to the logo image
+import logo from "../../../assets/lof.png"; 
+import { uploadImage } from './Laguna_Ocean_Foundation/app/firebase.js';  //trying to get this path to work
+
 
 const MapComponent = () => {
   const mapRef = useRef(null);
@@ -97,20 +99,31 @@ const MapComponent = () => {
     }
   };
 
-  const handleSaveObservation = () => {
+  const handleSaveObservation = async () => {
     const formData = new FormData(document.getElementById("observation-form"));
     const organism = formData.get("organisms");
     const activity = formData.get("activity");
+    const imageFile = formData.get("image"); // Get the image file
 
     if (!organism || !activity) {
       alert("Please select an organism and an activity.");
       return;
     }
 
+    if (imageFile) {
+      try {
+        await uploadImage(imageFile); // Upload the image
+      } catch (error) {
+        console.error("Image upload failed:", error);
+        alert("Image upload failed. Please try again.");
+        return;
+      }
+    }
+
     const newObservation = {
       organisms: organism,
       activity: activity,
-      image: formData.get("image"),
+      image: imageFile ? URL.createObjectURL(imageFile) : null, // Optionally use a local URL for display
       marker: currentMarker,
     };
 
@@ -153,7 +166,7 @@ const MapComponent = () => {
         <p>Click on the map to add a new observation pin.</p>
       </div>
       <div id="form-popup" className="form-popup">
-        <form id="observation-form">
+        <form id="observation-form" enctype="multipart/form-data">
           <h2>Observation Details</h2>
           <label htmlFor="organisms">What organisms did you observe?</label>
           <div>
@@ -193,38 +206,18 @@ const MapComponent = () => {
             <option value="option1">Option 1</option>
             <option value="option2">Option 2</option>
             <option value="option3">Option 3</option>
-            <option value="option4">Option 4</option>
-            <option value="option5">Option 5</option>
           </select>
           <label htmlFor="image">Upload an image (optional):</label>
           <input type="file" id="image" name="image" accept="image/*" />
-          <div className="form-buttons">
-            <button
-              type="button"
-              id="save-btn"
-              className="save-btn"
-              onClick={handleSaveObservation}
-            >
-              Save
-            </button>
-            {observations.some(obs => obs.marker === currentMarker) && (
-              <button
-                type="button"
-                id="delete-btn"
-                className="delete-btn"
-                onClick={handleDeleteMarker}
-              >
-                Delete
-              </button>
-            )}
-            <span
-              id="close-form"
-              className="close-form"
-              onClick={handleCloseForm}
-            >
-              X
-            </span>
-          </div>
+          <button type="button" onClick={handleSaveObservation}>
+            Save
+          </button>
+          <button type="button" onClick={handleDeleteMarker}>
+            Delete Marker
+          </button>
+          <button type="button" onClick={handleCloseForm}>
+            Cancel
+          </button>
         </form>
       </div>
     </div>
