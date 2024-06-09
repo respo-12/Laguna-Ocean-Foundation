@@ -23,7 +23,6 @@ const blue = "#3a899b";
 
 const HomePage = () => {
 
-  console.log(window.location.pathname);
   return (
     <div>
       <Navbar />

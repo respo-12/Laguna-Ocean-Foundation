@@ -10,8 +10,9 @@ import {
 import { Link } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
-import { Nav, Navbar } from "react-bootstrap";
+import { Button, Nav, Navbar } from "react-bootstrap";
 import { Container } from "react-bootstrap";
+import { useAuth } from "../contexts/AuthContext";
 
 const logo = require("../../assets/lof.png");
 const sand = "#e3c088";
@@ -22,6 +23,7 @@ const darkblue = "#191516a";
 export default function NavbarComp() {
   const [contents, setContents] = useState(false);
   const [wildlife, setWildlife] = useState(false);
+  const {currentUser, logout} = useAuth(); // Get the current user if they are logged in
 
   const hamPress = () => {
     if (contents) {
@@ -50,14 +52,33 @@ export default function NavbarComp() {
           />
         </Navbar.Brand>
         <Nav className="justify-content-end flex-row" as="ul">
-          <Nav.Item as="li">
-            <Nav.Link href="/login" style={{color:blue}}>
-              Login 
-            </Nav.Link>
-          </Nav.Item>
-          <Nav.Item as="li">
-            <Nav.Link href="/signup" style={{color:blue}}>Sign Up</Nav.Link>
-          </Nav.Item>
+        {currentUser ? (
+          <>
+            <Nav.Item as="li">
+              <Text style={{color:blue, fontSize: 13}}>
+                Logged in as: 
+                <br />
+                {currentUser.email}
+              </Text>
+            </Nav.Item>
+            <Nav.Item as="li">
+              <Button onClick={logout} varient="outline-dark" className="bg-white" size="sm" style={{color: blue}}> 
+                Logout
+              </Button>
+            </Nav.Item>
+          </>
+          ) : (
+            <>
+              <Nav.Item as="li">
+                <Nav.Link href="/login" style={{color:blue}}>
+                  Login 
+                </Nav.Link>
+              </Nav.Item>
+              <Nav.Item as="li">
+                <Nav.Link href="/signup" style={{color:blue}}>Sign Up</Nav.Link>
+              </Nav.Item>
+            </>
+          )}
         </Nav>
       </Container>
     </Navbar>

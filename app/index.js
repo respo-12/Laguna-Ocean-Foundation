@@ -1,11 +1,13 @@
-
+import React from "react";
+import {AuthProvider} from "./contexts/AuthContext";
 import HomePage from "./HomePage";
 
-export default function App() {
+function App() {
     return (
-        <>
+        <AuthProvider>
         <HomePage />
-        </>
-       
-    );
+        </AuthProvider>
+    )
 }
+
+export default App;
