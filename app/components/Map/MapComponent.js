@@ -2,8 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import "./MapComponent.css"; // Import the CSS file
 import { Pressable, Image } from "react-native";
 import logo from "../../../assets/lof.png"; 
-import { uploadImage } from './Laguna_Ocean_Foundation/app/firebase.js';  //trying to get this path to work
-
+import { FIREBASE_AUTH, getUserName, uploadImage } from "../../firebase";
 
 const MapComponent = () => {
   const mapRef = useRef(null);
