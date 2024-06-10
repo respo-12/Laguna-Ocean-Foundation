@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "./components/navbar";
+import { Alert } from "react-bootstrap";
 import { FIREBASE_AUTH } from "./firebase";
-import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { useAuth } from "./contexts/AuthContext";
 
 const sand = "#e3c088";
 const blue = "#3a899b";
@@ -11,36 +13,47 @@ const black = "#000000";
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const {login} = useAuth();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = (e) => {
+  async function handleLogin(e) {
     // Handle login logic here TEST VERSION
     e.preventDefault();
-    signInWithEmailAndPassword(FIREBASE_AUTH, email, password).then((userCredential) => {
-      console.log(userCredential);
+    setError("");
+    setLoading(true);
+    await login(email, password).then(() => {
+      window.location.href = "/";
     }).catch((error) => {
       console.log(error);
       if (error.code === "auth/invalid-credential") {
-        setErrorMessage("Wrong Password or Account Doesn't Exist");
+        return setError("Wrong Password or Account Doesn't Exist");
       }
     });
   }
   const handleGoogleLogin = async (e) => {
-    const GoogleProvider = await new GoogleAuthProvider();
-    return signInWithPopup(FIREBASE_AUTH, GoogleProvider)
+    try {
+      const GoogleProvider = new GoogleAuthProvider();
+      const result = await signInWithPopup(FIREBASE_AUTH, GoogleProvider);
+      window.location.href = "/";
+      return result.user;
+    } catch (error) {
+      console.error("Error during Google login: ", error);
+    }
   }
   return (
     <>
     <head>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"></link>
     </head>
-      <div className>
+      <div>
         <Navbar />
       </div>
-      <form className="login bg-white p-4" onSubmit={handleLogin}>
-        <h3 className="text-center">Welcome Back!</h3>
+      {error && <Alert variant="danger">{error}</Alert>}
+      <form className="login p-4" onSubmit={handleLogin}>
+        <h3 className="text-center text-white">Welcome Back!</h3>
         <div className="mb-2">
-          <label htmlFor="email">Email</label>
+          <label className="text-white fs-5" htmlFor="email">Email</label>
           <input
             type="email"
             placeholder="jane.doe@gmail.com"
@@ -49,7 +62,7 @@ export default function LoginPage() {
           />
         </div>
         <div className="mb-2">
-          <label htmlFor="password">Password</label>
+          <label className="text-white fs-5" htmlFor="password">Password</label>
           <input
             type="password"
             placeholder="Remember Must Be At Least 8 Characters"
@@ -63,7 +76,7 @@ export default function LoginPage() {
             className="custom-control custom-checkbox"
             id="check"
           />
-          <label htmlFor="check" className="custom-input-label ms-2">
+          <label htmlFor="check" className="custom-input-label ms-2 text-white">
             Remember Me
           </label>
         </div>
@@ -71,34 +84,33 @@ export default function LoginPage() {
           <button
             type="submit"
             className="btn"
-            style={{ backgroundColor: blue }}
+            style={{ backgroundColor: blue, color: 'white' }}
           >
             Login
           </button>
         </div>
-        {errorMessage != '' && <p style={{ color: 'red', textAlign: 'center' }}>{errorMessage}</p>}
         <p className="text-center mt-2">
-          <a href="">Forgot Password?</a>
+          <a href="" style={{color: blue}}>Forgot Password?</a>
         </p>
-        <p className="text-center mt-2">
+        <p className="text-center mt-2 text-white">
           Don't Have an Account?
-          <a href="./signup" className="ms-2">
-            Sign Up
+          <a href="./signup" className="ms-2" style={{color: blue}}>
+            Sign Up here
           </a>
         </p>
-      </form>
-      <div className="d-flex justify-content-center">
+        <div className="d-flex justify-content-center">
       
         <button 
           type="submit"
           className="btn "
-          style={{ backgroundColor: sand }}
+          style={{ backgroundColor: sand}}
           onClick={handleGoogleLogin}
         >
           <i class="bi bi-google" style={{ color: black, marginRight: '10px' }}></i>
           Continue With Google
         </button>
       </div>
+      </form>
     </>
   );
 }
