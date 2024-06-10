@@ -1,62 +1,57 @@
-import { AntDesign } from "@expo/vector-icons";
+import React from "react";
+import { StyleSheet, View, Text, ScrollView } from "react-native";
 import Navbar from "../components/navbar";
-import { Link } from 'expo-router';
-import { StyleSheet, View, Text, ScrollView, Pressable } from "react-native";
 
 const sand = '#e3c088';
 const lightblue = '#68c8cb';
 const blue = '#3a899b';
-const darkblue = '#191516a';
 
 export default function SandCycles() {
     return (
-        <View style={{ flexDirection: 'column' }}>
+        <View style={styles.container}>
             <Navbar />
             <ScrollView>
-                <View style={styles.outside}>
-                    <View style={styles.container}>
-                        <Text style={styles.title}>Sand Cycles</Text>
-                        <View style={styles.line}></View>
-                        <Text style={styles.item}>Sand cycles are like the way sand at the beach moves around in a big circle. It's how the sand gets carried by the wind or water, then settles down again. This movement of sand happens over and over, and it's why beaches and deserts sometimes look different from one day to the next. Sand cycles are important because they help make the land and beaches look the way they do, and they also help animals and plants live in their habitats.</Text>
-                    </View>
+                <View style={styles.content}>
+                    <Text style={styles.title}>Sand Cycles</Text>
+                    <View style={styles.line} />
+                    <Text style={styles.item}>
+                        Sand cycles are like the way sand at the beach moves around in a big circle. It's how the sand gets carried by the wind or water, then settles down again. This movement of sand happens over and over, and it's why beaches and deserts sometimes look different from one day to the next. Sand cycles are important because they help make the land and beaches look the way they do, and they also help animals and plants live in their habitats.
+                    </Text>
                 </View>
-                <View style={{ backgroundColor: sand, width: '100vw', height: '5vh' }}></View>
+                <View style={styles.footer} />
             </ScrollView>
         </View>
-    )
+    );
 }
 
-styles = StyleSheet.create({
-    outside: {
-        backgroundColor: blue,
-        height: '100vh',
-        width: '100vw',
-        paddingBottom: 100
-    },
+const styles = StyleSheet.create({
     container: {
-        margin: 20,
-        backgroundColor: 'white',
-        borderRadius: 20,
         flex: 1,
-        height: "80vh",
-        width: "90vw"
+    },
+    content: {
+        backgroundColor: blue,
+        padding: 20,
     },
     title: {
         color: '#064777',
-        margin: 10,
         fontWeight: 'bold',
-        alignSelf: 'center',
-        fontSize: 35
+        fontSize: 35,
+        textAlign: 'center',
+        marginBottom: 10,
     },
     line: {
-        borderColor: 'lightblue',
-        borderWidth: .5,
-        marginHorizontal: 10
+        borderColor: sand,
+        borderWidth: 2,
+        marginVertical: 10,
     },
     item: {
-        margin: 5,
         color: '#064777',
         fontSize: 20,
-        marginHorizontal: 10
-    }
+        textAlign: 'center',
+        marginBottom: 20,
+    },
+    footer: {
+        backgroundColor: sand,
+        height: 20,
+    },
 });

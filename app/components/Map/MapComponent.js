@@ -1,13 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./MapComponent.css"; // Import the CSS file
-import logo from "../../../assets/lof.png"; // Import the logo
 import { Pressable, Image } from "react-native";
+import logo from "../../../assets/lof.png"; 
+import { FIREBASE_AUTH, getUserName, uploadImage } from "../../firebase";
+import Navbar from "../navbar";
 
 const MapComponent = () => {
   const mapRef = useRef(null);
   const [map, setMap] = useState(null);
   const [markers, setMarkers] = useState([]);
   const [currentMarker, setCurrentMarker] = useState(null);
+  const [observations, setObservations] = useState([]);
 
   useEffect(() => {
     const loadGoogleMapsScript = () => {
@@ -90,15 +93,42 @@ const MapComponent = () => {
 
   const handleCloseForm = () => {
     hideForm();
-    if (currentMarker) {
+    if (currentMarker && !observations.some(obs => obs.marker === currentMarker)) {
       currentMarker.setMap(null);
       setCurrentMarker(null);
     }
   };
 
-  const handleSaveObservation = () => {
+  const handleSaveObservation = async () => {
+    const formData = new FormData(document.getElementById("observation-form"));
+    const organism = formData.get("organisms");
+    const activity = formData.get("activity");
+    const imageFile = formData.get("image"); // Get the image file
+
+    if (!organism || !activity) {
+      alert("Please select an organism and an activity.");
+      return;
+    }
+
+    if (imageFile) {
+      try {
+        await uploadImage(imageFile); // Upload the image
+      } catch (error) {
+        console.error("Image upload failed:", error);
+        alert("Image upload failed. Please try again.");
+        return;
+      }
+    }
+
+    const newObservation = {
+      organisms: organism,
+      activity: activity,
+      image: imageFile ? URL.createObjectURL(imageFile) : null, // Optionally use a local URL for display
+      marker: currentMarker,
+    };
+
+    setObservations((prevObservations) => [...prevObservations, newObservation]);
     hideForm();
-    // Optionally, save the observation data to a database or display it somewhere
   };
 
   const handleDeleteMarker = () => {
@@ -115,21 +145,7 @@ const MapComponent = () => {
   return (
     <div>
       <div className="top-bar">
-        <Pressable>
-          <Image style={{ height: 40, width: 150, margin: 5 }} source={logo} />
-        </Pressable>
-        <div id="title">
-          <h1>Interactive Map</h1>
-        </div>
-        <div id="menu-icon" className="menu-icon">
-          &#9776;
-        </div>
-      </div>
-      <div id="dropdown-menu" className="dropdown-menu">
-        <a href="#option1">Home</a>
-        <a href="#option2">Wildlife Directory</a>
-        <a href="#option3">Support LOF</a>
-        <a href="#option4">Field Guide</a>
+          <Navbar style={{ height: 40, width: 150}} source={logo} />
       </div>
       <div id="map" ref={mapRef}></div>
       <div className="bottom-bar">
@@ -145,70 +161,58 @@ const MapComponent = () => {
         <p>Click on the map to add a new observation pin.</p>
       </div>
       <div id="form-popup" className="form-popup">
-        <form id="observation-form">
+        <form id="observation-form" enctype="multipart/form-data">
           <h2>Observation Details</h2>
           <label htmlFor="organisms">What organisms did you observe?</label>
-          <br />
-          <input type="radio" id="birds" name="organisms" value="Birds" />
-          <label htmlFor="birds">Birds</label>
-          <br />
-          <input
-            type="radio"
-            id="marine-mammals"
-            name="organisms"
-            value="Marine Mammals"
-          />
-          <label htmlFor="marine-mammals">Marine Mammals</label>
-          <br />
-          <input
-            type="radio"
-            id="invertebrates"
-            name="organisms"
-            value="Invertebrates"
-          />
-          <label htmlFor="invertebrates">Invertebrates</label>
-          <br />
-          <input
-            type="radio"
-            id="invasive-species"
-            name="organisms"
-            value="Invasive Species"
-          />
-          <label htmlFor="invasive-species">Invasive Species</label>
-          <br />
+          <div>
+            <input type="radio" id="birds" name="organisms" value="Birds" />
+            <label htmlFor="birds">Birds</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              id="marine-mammals"
+              name="organisms"
+              value="Marine Mammals"
+            />
+            <label htmlFor="marine-mammals">Marine Mammals</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              id="invertebrates"
+              name="organisms"
+              value="Invertebrates"
+            />
+            <label htmlFor="invertebrates">Invertebrates</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              id="invasive-species"
+              name="organisms"
+              value="Invasive Species"
+            />
+            <label htmlFor="invasive-species">Invasive Species</label>
+          </div>
           <label htmlFor="activity">What were you doing?</label>
-          <br />
           <select id="activity" name="activity">
+            <option value="">Select an activity</option>
             <option value="option1">Option 1</option>
             <option value="option2">Option 2</option>
             <option value="option3">Option 3</option>
-            <option value="option4">Option 4</option>
-            <option value="option5">Option 5</option>
           </select>
-          <br />
-          <button
-            type="button"
-            id="save-btn"
-            className="save-btn"
-            onClick={handleSaveObservation}
-          >
+          <label htmlFor="image">Upload an image (optional):</label>
+          <input type="file" id="image" name="image" accept="image/*" />
+          <button type="button" onClick={handleSaveObservation}>
             Save
           </button>
-          <button
-            type="button"
-            id="delete-btn"
-            className="delete-btn"
-            onClick={handleDeleteMarker}
-          >
-            Delete
+          <button type="button" onClick={handleDeleteMarker}>
+            Delete Marker
           </button>
-          <span
-            id="close-form"
-            className="close-form"
-            onClick={handleCloseForm}
-          >
-            X
-          </span>
+          <button type="button" onClick={handleCloseForm}>
+            Cancel
+          </button>
         </form>
       </div>
     </div>
