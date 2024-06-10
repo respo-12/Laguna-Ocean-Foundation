@@ -3,6 +3,7 @@ import "./MapComponent.css"; // Import the CSS file
 import { Pressable, Image } from "react-native";
 import logo from "../../../assets/lof.png"; 
 import { FIREBASE_AUTH, getUserName, uploadImage } from "../../firebase";
+import Navbar from "../navbar";
 
 const MapComponent = () => {
   const mapRef = useRef(null);
@@ -144,12 +145,7 @@ const MapComponent = () => {
   return (
     <div>
       <div className="top-bar">
-        <Pressable>
-          <Image style={{ height: 40, width: 150, margin: 5 }} source={logo} />
-        </Pressable>
-        <div id="title">
-          <h1>Interactive Map</h1>
-        </div>
+          <Navbar style={{ height: 40, width: 150}} source={logo} />
       </div>
       <div id="map" ref={mapRef}></div>
       <div className="bottom-bar">

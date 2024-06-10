@@ -1,5 +1,5 @@
 import Navbar from "../components/navbar";
-import { StyleSheet, View, Text, ScrollView, TextInput, Pressable, Image } from "react-native";
+import { StyleSheet, View, Text, ScrollView, TextInput, Pressable, Image, Platform } from "react-native";
 import getOrgs from "../components/info";
 import { Link } from "expo-router";
 import { useState } from 'react';
@@ -9,13 +9,33 @@ const blue = '#3a899b';
 const darkblue = '#191516a';
 
 export default function Wildlife() {
-    const [orgs, setOrgs] = useState(getOrgs());
-    orgs2 = getOrgs();
+    const allOrgs = getOrgs();
+    const [orgs, setOrgs] = useState(allOrgs);
+    const [searchText, setSearchText] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState('All');
+    const [showDropdown, setShowDropdown] = useState(false);
 
     const handleInputChange = (inputText) => {
-        setOrgs(orgs2.filter(org =>
-            org.name.toLowerCase().includes(inputText.toLowerCase())
-        ))
+        setSearchText(inputText);
+        filterOrganizations(inputText, selectedCategory);
+    };
+
+    const filterOrganizations = (searchText, category) => {
+        let filteredOrgs = allOrgs.filter(org =>
+            org.name.toLowerCase().includes(searchText.toLowerCase())
+        );
+
+        if (category !== 'All') {
+            filteredOrgs = filteredOrgs.filter(org => org.type === category);
+        }
+
+        setOrgs(filteredOrgs);
+    };
+
+    const handleFilterPress = (category) => {
+        setSelectedCategory(category);
+        filterOrganizations(searchText, category);
+        setShowDropdown(false);
     };
 
     return (
@@ -24,12 +44,21 @@ export default function Wildlife() {
             <ScrollView bounces={false}>
                 <View style={styles.bg}>
                     <Text style={styles.title}>All Wildlife </Text>
-                    <TextInput style={styles.search_box} placeholder="Search" onChangeText={handleInputChange} />
-                    <Pressable style={{justifyContent:'center',height:30,width:'20%','backgroundColor':'#003f4e',borderRadius:20,alignSelf:'flex-end',margin:10,marginRight:20}}>
-                        <View>
-                            <Text style={{ alignSelf:'center',color:'white'}}>Filter</Text>
-                        </View>
+                    <View style={styles.searchAndFilter}>
+                    <Pressable style={styles.filterButton} onPress={() => setShowDropdown(!showDropdown)}>
+                    <Text style={styles.filterButtonText}>FILTER: {selectedCategory.toUpperCase()}</Text>
                     </Pressable>
+                        <TextInput style={styles.search_box} placeholder="Search" value={searchText} onChangeText={handleInputChange} />
+                    </View>
+                    {showDropdown && (
+                        <View style={styles.dropdown}>
+                            <DropdownItem category="All" onPress={() => handleFilterPress('All')} />
+                            <DropdownItem category="Birds" onPress={() => handleFilterPress('bird')} />
+                            <DropdownItem category="Invasive" onPress={() => handleFilterPress('invasive')} />
+                            <DropdownItem category="Invertebrates" onPress={() => handleFilterPress('invertebrate')} />
+                            <DropdownItem category="Marine" onPress={() => handleFilterPress('mammal')} />
+                        </View>
+                    )}
                     {orgs.map((org, i) => {
                         return (
                             <Link key={i} href={"/organism/" + org.web} style={styles.item} asChild>
@@ -52,18 +81,43 @@ export default function Wildlife() {
     );
 }
 
+const DropdownItem = ({ category, onPress }) => {
+    return (
+        <Pressable style={styles.dropdownItem} onPress={onPress}>
+            <Text style={{ color: 'white' }}>{category}</Text>
+        </Pressable>
+    );
+}
 
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'column',
     },
+    searchAndFilter: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 20,
+        marginBottom: 20,
+    },
+    filterButton: {
+        backgroundColor: 'white',
+        borderRadius: 10,
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        marginRight: 10,
+    },
+    filterButtonText: {
+        color: blue,
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
     search_box: {
         backgroundColor: 'white',
-        width: '90%',
+        width: '20%', // Adjusted width to make it smaller
         height: 30,
-        paddingHorizontal: 20,
+        paddingHorizontal: 10,
         borderRadius: 10,
-        alignSelf: 'center'
+        marginLeft: 'auto', // Aligns to the right
     },
     bg: {
         backgroundColor: blue,
@@ -71,7 +125,8 @@ const styles = StyleSheet.create({
         minWidth: '100vw'
     },
     title: {
-        margin: 20,
+        marginHorizontal: 20,
+        marginVertical: 20,
         color: 'white',
         fontSize: 40
     },
@@ -84,13 +139,13 @@ const styles = StyleSheet.create({
     line: {
         borderWidth: .5,
         borderColor: blue,
-        margin: 20,
+        marginHorizontal: 20,
         marginVertical: 0
     },
     scientific: {
         fontSize: 12,
         paddingTop: 10,
-        padding: 20
+        paddingHorizontal: 20
     },
     image: {
         backgroundColor: 'grey',
@@ -106,5 +161,18 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         margin: 15,
         flexDirection: 'row'
+    },
+    dropdown: {
+        flexDirection: 'row',
+        position: 'absolute',
+        top: 80, // Adjust this value to control the dropdown position
+        right: 20,
+        left: 20,
+        backgroundColor: '#003f4e',
+        borderRadius: 10,
+        padding: 10
+    },
+    dropdownItem: {
+        padding: 10
     }
 });

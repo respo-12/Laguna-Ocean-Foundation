@@ -1,41 +1,41 @@
-import Navbar from "../components/navbar";
-import { StyleSheet, View, Text, ScrollView, TextInput, Pressable, Image } from "react-native";
-import getOrgs from "../components/info";
-import { Link } from "expo-router";
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, Pressable, Image } from 'react-native';
+import { Link } from 'expo-router'; // Make sure to import the appropriate navigation component
+import Navbar from '../components/navbar';
+import getOrgs from '../components/info';
 
-const lightblue = '#68c8cb';
 const blue = '#3a899b';
-const darkblue = '#191516a';
 
 export default function Birds() {
     const orgs = getOrgs();
-    const [birds, setBirds] = useState(orgs.filter(org =>
-                                        org.type == "bird"
-                                    ));
-
-    const handleInputChange = (inputText) => {
-        setBirds(orgs.filter(org =>
-            org.name.toLowerCase().includes(inputText.toLowerCase())
-        ))
-    };
+    const [birds, setBirds] = useState(orgs.filter(org => org.type === 'bird'));
 
     return (
-        <View style={{ flexDirection: 'column', height:'100vh',width:'100vw'}}>
+        <View style={{ flexDirection: 'column', height: '100vh', width: '100vw' }}>
             <Navbar />
             <ScrollView bounces={false}>
                 <View style={styles.bg}>
-                    <Text style={styles.title}>Birds </Text>
-                    <TextInput style={styles.search_box} placeholder="Search" onChangeText={handleInputChange} />
-                    <Pressable style={{justifyContent:'center',height:30,width:'20%','backgroundColor':'#003f4e',borderRadius:20,alignSelf:'flex-end',margin:10,marginRight:20}}>
-                        <View>
-                            <Text style={{ alignSelf:'center',color:'white'}}>Filter</Text>
+                    <Text style={styles.title}>Birds</Text>
+                    <View style={styles.container}>
+                        <View style={styles.navbar}>
+                           <Pressable>
+                                <Link href="/wildlife/" style={styles.navButton}>All</Link>
+                            </Pressable>
+                            <Pressable>
+                                <Link href="/wildlife/invasive" style={styles.navButton}>Invasive</Link>
+                            </Pressable>
+                            <Pressable>
+                                <Link href="/wildlife/invertebrates" style={styles.navButton}>Invertebrates</Link>
+                            </Pressable>
+                            <Pressable>
+                                <Link href="/wildlife/marine" style={styles.navButton}>Marine</Link>
+                            </Pressable>
                         </View>
-                    </Pressable>
+                    </View>
                     {birds.map((org, i) => {
                         return (
-                            <Link key={i} href={"/organism/" + org.web} style={styles.item} asChild>
-                                <Pressable >
+                            <Link key={i} href={'/organism/' + org.web} style={styles.item} asChild>
+                                <Pressable>
                                     <View>
                                         <Text style={styles.name}>{org.name}</Text>
                                         <View style={styles.line} />
@@ -46,7 +46,7 @@ export default function Birds() {
                                     </View>
                                 </Pressable>
                             </Link>
-                        )
+                        );
                     })}
                 </View>
             </ScrollView>
@@ -54,19 +54,7 @@ export default function Birds() {
     );
 }
 
-
 const styles = StyleSheet.create({
-    container: {
-        flexDirection: 'column',
-    },
-    search_box: {
-        backgroundColor: 'white',
-        width: '90%',
-        height: 30,
-        paddingHorizontal: 20,
-        borderRadius: 10,
-        alignSelf: 'center'
-    },
     bg: {
         backgroundColor: blue,
         minHeight: '100vh',
@@ -84,7 +72,7 @@ const styles = StyleSheet.create({
         paddingBottom: 10
     },
     line: {
-        borderWidth: .5,
+        borderWidth: 0.5,
         borderColor: blue,
         margin: 20,
         marginVertical: 0
@@ -104,9 +92,31 @@ const styles = StyleSheet.create({
         borderRadius: 10
     },
     item: {
-        backgroundColor: "white",
+        backgroundColor: 'white',
         borderRadius: 10,
         margin: 15,
         flexDirection: 'row'
-    }
+    },
+    navbar: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        paddingVertical: 10, // Adjusted padding to make the navbar shorter
+        paddingHorizontal: 10, // Adjusted padding to make the buttons closer together
+        backgroundColor: '#FFFFFA',
+        alignItems: 'center',
+        width: '90%',
+        alignSelf: 'center', // Centering the navbar horizontally
+        borderRadius: 10,
+        borderWidth: 1,
+        borderColor: blue,
+    },
+    container: {
+        alignItems: 'center',
+    },
+    navButton: {
+        color: blue,
+        fontSize: 16,
+        fontWeight: 'bold',
+        textDecorationLine: 'none',
+    },
 });

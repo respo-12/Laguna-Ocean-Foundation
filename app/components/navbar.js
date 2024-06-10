@@ -43,7 +43,7 @@ export default function NavbarComp() {
   };
 
   return (
-    <Navbar className="bg-light" style={{ flexDirection: "row" }}>
+    <Navbar className="bg-light" style={{ flexDirection: "row", display: "flex" }}>
       <Container fluid>
         <Navbar.Brand href="/" className="justify-content-left">
           <Image
