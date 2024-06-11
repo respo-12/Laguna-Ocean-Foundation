@@ -196,12 +196,7 @@ const MapComponent = () => {
             <label htmlFor="invasive-species">Invasive Species</label>
           </div>
           <label htmlFor="activity">What were you doing?</label>
-          <select id="activity" name="activity">
-            <option value="">Select an activity</option>
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
-            <option value="option3">Option 3</option>
-          </select>
+          <textarea id="activity" name="activity" rows="4" cols="30" placeholder="Enter your activity"></textarea>
           <label htmlFor="image">Upload an image (optional):</label>
           <input type="file" id="image" name="image" accept="image/*" />
           <button type="button" onClick={handleSaveObservation}>
