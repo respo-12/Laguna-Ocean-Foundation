@@ -21,58 +21,70 @@ export default function SignUpPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  async function handleSignUp(e){
-    // Handle login logic here TEST VERSION
+  async function handleSignUp(e) {
     e.preventDefault();
+    // Handle login logic here TEST VERSION
     if (!passwordMatch) {
       return setError("Passwords do not match");
-      
     }
-    // Create user with email and password
+  
     setError("");
     setLoading(true);
-    await signup(email, password).then(() => {
-      window.location.href = "/";
-    }).catch((error) => {
+  
+    try {
+      await signup(email, password);
+  
+      const userDocExists = await doesDocExist("User", email);
+  
+      if (userDocExists) {
+        console.log("User already exists");
+        setError("User already exists in Firestore");
+      } else {
+        await setDoc(doc(FIRESTORE_DB, "User", email), {
+          First: firstName,
+          Last: lastName,
+        });
+        console.log("User signed up and added to Firestore");
+        window.location.href = "/";
+      }
+    } catch (error) {
       console.log(error);
       if (error.code === "auth/weak-password") {
-        return setError("Password is too weak must be at least 6 characters");
-      }
-      else if (error.code === "auth/email-already-in-use") {
-        return setError("Email already in use");
-      }
-    });
-    doesDocExist("User", email)
-    .then(exists => {
-      if (exists) {
-        console.log("User already exists");
-        console.error("User already exists")
+        setError("Password is too weak must be at least 6 characters");
+      } else if (error.code === "auth/email-already-in-use") {
+        setError("Email already in use");
       } else {
-        console.log("Document does not exist.");
-        try{
-          setDoc(doc(FIRESTORE_DB, "User", email), {
-            First: firstName,
-            Last: lastName,
-          });
-          console.log("User signed up and added to Firestore");
-        }
-        catch{
-          console.log("Error adding user to Firestore: ",error.message)
-        }
+        setError("Failed to sign up");
       }
-    })
-    .catch(error => {
-      console.error("Error checking document existence:", error);
-    });
+    } finally {
+      setLoading(false);
+    }
+  
+    // Reset the form fields
     e.target.reset();
-    
-    
-  };
+  }
   const handleGoogleLogin = async (e) => {
     try {
       const GoogleProvider = new GoogleAuthProvider();
       const result = await signInWithPopup(FIREBASE_AUTH, GoogleProvider);
-      window.location.href = "/";
+      
+      const userDocExists = await doesDocExist("User", result.user.email);
+      if (userDocExists) {
+        console.log("User already exists");
+        setError("User already exists in Firestore");
+      } else {
+        const displayName = result.user.displayName || "Unknown";
+        const nameParts = displayName.split(' ');
+        const firstName = nameParts[0];
+        const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
+        await setDoc(doc(FIRESTORE_DB, "User", result.user.email), {
+          First: firstName,
+          Last: lastName,
+        });
+        console.log("User signed up and added to Firestore");
+        window.location.href = "/";
+      }
+      e.target.reset();
       return result.user;
     } catch (error) {
       console.error("Error during Google login: ", error);
