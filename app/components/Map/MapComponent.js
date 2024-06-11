@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import "./MapComponent.css"; // Import the CSS file
 import { Pressable, Image } from "react-native";
 import logo from "../../../assets/lof.png"; 
-import { FIREBASE_AUTH, getUserName, uploadImage } from "../../firebase";
+import { FIREBASE_AUTH, getUserName, uploadObservation } from "../../firebase";
 import Navbar from "../navbar";
 
 const MapComponent = () => {
@@ -112,7 +112,7 @@ const MapComponent = () => {
 
     if (imageFile) {
       try {
-        await uploadImage(imageFile); // Upload the image
+        await uploadObservation(imageFile,activity,"",organism); // Upload the image
       } catch (error) {
         console.error("Image upload failed:", error);
         alert("Image upload failed. Please try again.");

@@ -70,7 +70,7 @@ export async function collectionCheck() {
   }
 }
 
-export async function uploadImage(imageFile) {
+export async function uploadObservation(imageFile, description, location,type) {
   try {
     const userName=getUserName();
     if(userName=="False"){
@@ -86,10 +86,10 @@ export async function uploadImage(imageFile) {
     const snapshot = await uploadBytes(storageRef, imageFile);
     const userDocRef = doc(FIRESTORE_DB, 'User', userName);
     const imageData = {
-      Description: "Default Description",
+      Description: description,
       ImagePath: filePath,
-      Location: "Default Location",
-      Type: "Default Type"
+      Location: location,
+      Type: type
     };
 
     const newImageDocRef = doc(collection(userDocRef, 'Images'), (imageCount).toString());
