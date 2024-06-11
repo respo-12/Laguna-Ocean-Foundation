@@ -70,7 +70,7 @@ export async function collectionCheck() {
   }
 }
 
-export async function uploadObservation(imageFile, description, location,type) {
+export async function uploadObservation(imageFile=null, description, location,type) {
   try {
     const userName=getUserName();
     if(userName=="False"){
@@ -79,22 +79,35 @@ export async function uploadObservation(imageFile, description, location,type) {
     let imageCount= await collectionCheck();
    
     const filePath = `gs://laguna-ocean-foundation.appspot.com/${userName}/${imageCount}`;
-    const storageRef = ref(storage, filePath);
+    if(imageFile !== null && imageFile !== undefined){
+      const storageRef = ref(storage, filePath);
 
-    // Upload the file
-    
-    const snapshot = await uploadBytes(storageRef, imageFile);
-    const userDocRef = doc(FIRESTORE_DB, 'User', userName);
-    const imageData = {
-      Description: description,
-      ImagePath: filePath,
-      Location: location,
-      Type: type
-    };
-
-    const newImageDocRef = doc(collection(userDocRef, 'Images'), (imageCount).toString());
-    await setDoc(newImageDocRef, imageData);
-    return;
+      // Upload the file
+      
+      const snapshot = await uploadBytes(storageRef, imageFile);
+      const userDocRef = doc(FIRESTORE_DB, 'User', userName);
+      const imageData = {
+        Description: description,
+        ImagePath: filePath,
+        Location: location,
+        Type: type
+      };
+  
+      const newImageDocRef = doc(collection(userDocRef, 'Images'), (imageCount).toString());
+      await setDoc(newImageDocRef, imageData);
+      return;
+    }
+    else{
+      const userDocRef = doc(FIRESTORE_DB, 'User', userName);
+      const imageData = {
+        Description: description,
+        ImagePath: "No Image for this observation",
+        Location: location,
+        Type: type
+      };
+      const newImageDocRef = doc(collection(userDocRef, 'Images'), (imageCount).toString());
+      await setDoc(newImageDocRef, imageData);
+    }
   } catch (error) {
     console.error('Upload failed', error);
     throw error;

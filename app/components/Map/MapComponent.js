@@ -109,13 +109,24 @@ const MapComponent = () => {
       alert("Please select an organism and an activity.");
       return;
     }
-
-    if (imageFile) {
+    const position = currentMarker ? currentMarker.getPosition().toJSON() : null;
+    if (imageFile.size!=0) {
       try {
-        await uploadObservation(imageFile,activity,"",organism); // Upload the image
+        await uploadObservation(imageFile, activity, position, organism); // Upload the image
       } catch (error) {
         console.error("Image upload failed:", error);
         alert("Image upload failed. Please try again.");
+        return;
+      }
+    } else {
+      console.log("No image provided by the user.");
+      // Handle the case where no image is provided
+      // For example, you might want to upload an observation without an image
+      try {
+        await uploadObservation(null, activity, position, organism); // Upload without the image
+      } catch (error) {
+        console.error("Observation upload failed:", error);
+        alert("Observation upload failed. Please try again.");
         return;
       }
     }
